@@ -1,15 +1,15 @@
 #steffen.kaminski@kuleuven.be
 #software used: Atom, Julia 0.6.4
 
-#example of slide 79-82 using loops for finding marked equilibrium
+#EPEC example of slide 79-82 using loops for finding marked equilibrium
 #for each iteration a MPEC is solved
 
 using JuMP
 using Complementarity
 using Ipopt
 
-abs_err = 0.0001
-num_leader = 2
+abs_err = 0.001
+num_leader = 4
 num_follower = 1
 num_producer = num_leader + num_follower
 a = 10
@@ -26,7 +26,7 @@ q_last =  ones(num_producer) * 0.0 #just a initialization value
 while err > abs_err
     err = 0
     for producer in 1:num_producer
-        global m = Model(solver=IpoptSolver())
+        global m = Model(solver=IpoptSolver()) #using globals because of for-loop scope
         global q=@variable(m, q[1:num_producer] >= 0)
 
         #fixing profit of all other producers
@@ -60,9 +60,7 @@ while err > abs_err
     i+=1
 end
 
-# println(collection_q)
-# println(collection_profits)
-
+#show iteration results
 for i in 1:length(collection_q)
-    println(" $(i) iteration. q: $(collection_q[i]), profit: $(collection_profits[i])")
+    println(" $(i) iteration. \t q: $(collection_q[i]) \t profit: $(collection_profits[i])")
 end
