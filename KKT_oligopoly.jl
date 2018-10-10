@@ -6,7 +6,7 @@
 using Complementarity
 using JuMP
 
-num_part = 100
+num_part = 3
 
 alpha = 10
 beta = 1
@@ -27,5 +27,5 @@ m=MCPModel()
 
 # accessing the solved model values
 @show getvalue(q)
-@show Price = a - b*(sum(getvalue(q)));
-@show Profit = Price*getvalue(q)- c.*getvalue(q);
+@show Price = alpha - beta*(sum(getvalue(q)));
+@show Profit = Price*getvalue(q)- gamma.*getvalue(q);
