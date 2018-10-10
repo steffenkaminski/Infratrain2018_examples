@@ -17,6 +17,8 @@ c = [1 for i in 1:number_part]
 #first producer is leader, others are followers
 
 @variable(m, q[1:length(c)])
+@variable(m, cap[1:length(c)])
+
 @NLobjective(m, Max, q[1]*(a - b*(sum(q[i] for i in 1:number_part)))-c[1]*q[1])
 
 for j = 2:number_part
@@ -25,4 +27,7 @@ for j = 2:number_part
 end
 
 solve(m)
+
+@show Price = a - b*(sum(getvalue(q)));
+@show Profit = Price*getvalue(q)- c.*getvalue(q);
 @show getvalue(q)
